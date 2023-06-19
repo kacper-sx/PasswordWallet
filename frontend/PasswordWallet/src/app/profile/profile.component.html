@@ -1,0 +1,94 @@
+<ng-template #passwordChangeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Change password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="changePassword" (ngSubmit)="changePasswordForm.form.valid && passwordSubmit()"
+          #changePasswordForm="ngForm" novalidate>
+      <div class="form-group">
+        <label for="currentPassword">Current password</label>
+        <input type="password" class="form-control" id="currentPassword" name="currentPassword"
+               [(ngModel)]="passwordChangeForm.oldMasterPassword" required #oldPassword="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="changePasswordForm.submitted && oldPassword.invalid">Insert
+          current password!
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="currentPassword">New password</label>
+        <input type="password" name="password" class="form-control" [(ngModel)]="passwordChangeForm.newMasterPassword"
+               required #newPassword="ngModel" minlength="2"/>
+        <div class="alert alert-danger"
+             *ngIf="newPassword.invalid && (changePasswordForm.submitted || newPassword.touched)">
+          <div *ngIf="newPassword.hasError('required')"> Password is required!</div>
+          <div *ngIf="newPassword.hasError('minlength')"> Must contain at least 2 or more characters</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmNewPassword">Confirm new password</label>
+        <input type="password" [(ngModel)]="newPasswordRepeat" name="confirmNewPassword" id="confirmNewPassword"
+               class="form-control" required #confirmNewPassword="ngModel"
+               pattern="{{ passwordChangeForm.newMasterPassword }}"/>
+        <div class="alert alert-danger"
+             *ngIf=" confirmNewPassword.invalid && (changePasswordForm.submitted || confirmNewPassword.touched)">
+          <div *ngIf="confirmNewPassword.hasError('required')">Password confirmation is required!</div>
+          <div *ngIf="confirmNewPassword.hasError('pattern')">Passwords are not identical!</div>
+        </div>
+      </div>
+      <div class="row" *ngIf="showPasswordChangeErrorMessage">
+        <div class="col">
+          <p class="alert alert-danger" style="text-align: center">
+            <strong>{{message}}</strong>
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Confirm password change</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+<ng-template #successModal let-modal>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <p class="alert alert-success">
+          <strong>{{message}}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="refreshPage()">OK</button>
+  </div>
+</ng-template>
+
+
+<div class="container-fluid p-0" id="profileContainer">
+  <div class="row">
+    <div class="container" id="passwordEmailChangeContainer">
+      <button class="btn btn-outline-primary mb-2 mr-2" (click)="openPasswordChangeModal(passwordChangeModal)">Change password</button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row" *ngIf="this.lastSuccessfulLoginDate != ''">
+    <div class="container" id="lastSuccessfulLoginDate">
+      <p style="text-align: center">Last successful login: {{ lastSuccessfulLoginDate }}</p>
+    </div>
+  </div>
+  <div class="row" *ngIf="this.lastUnsuccessfulLoginDate != ''">
+    <div class="container" id="lastUnsuccessfulLoginDate">
+      <p style="text-align: center">Last unsuccessful login: {{ lastUnsuccessfulLoginDate }}</p>
+    </div>
+  </div>
+</div>
+
+

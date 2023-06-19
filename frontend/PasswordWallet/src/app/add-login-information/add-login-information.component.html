@@ -1,0 +1,63 @@
+<div class="container-fluid p-0" id="loginInfoAddContainer">
+  <form id="addLoginInfoForm" (ngSubmit)="addLoginInfoForm.valid && onSubmit()" #addLoginInfoForm="ngForm">
+
+    <div class="form-group">
+      <label for="login">Login:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="text" style="display: inline;" id="login" name="login" [(ngModel)]="loginInfoAddForm.login" required #login="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && login.invalid">Login required!</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="password" style="display: inline;" id="password" name="password" [(ngModel)]="loginInfoAddForm.password" required #password="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && password.invalid">Password required!</div>
+    </div>
+
+    <div class="form-group">
+      <label for="passwordV2">Re-enter password:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="password" style="display: inline;" id="passwordV2" name="passwordV2" [(ngModel)]="reEnteredPassword" required #passwordV2="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && passwordV2.invalid">Password v2 is required!</div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && reEnteredPassword !== loginInfoAddForm.password">Passwords are not identical!</div>
+    </div>
+
+    <div class="form-group">
+      <label for="webAddress">Web address:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="text" style="display: inline;" id="webAddress" name="webAddress" [(ngModel)]="loginInfoAddForm.webAddress" required #webAddress="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && webAddress.invalid">Web address is required!</div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="text" style="display: inline;" id="description" name="description" [(ngModel)]="loginInfoAddForm.description" required #description="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && description.invalid">Description is required!</div>
+    </div>
+
+    <div class="form-group">
+      <label for="masterPassword">Master password:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="password" style="display: inline;" id="masterPassword" name="masterPassword" [(ngModel)]="loginInfoAddForm.masterPassword" required pattern="[A-Za-z].{1,15}" #masterPassword="ngModel">
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && masterPassword.invalid">Master password is required!</div>
+    </div>
+
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+
+    <div class="form-group">
+      <div class="alert alert-danger" role="alert" *ngIf="addLoginInfoForm.submitted && isAddingFailed" style="text-align: center">{{ errorMessage }}</div>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,14 @@
+#loginContainer {
+  width: 100%;
+  height: 94vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+#loginForm {
+  width: 300px;
+  height: auto;
+}

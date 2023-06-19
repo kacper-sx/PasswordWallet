@@ -1,0 +1,36 @@
+<div class="container-fluid p-0" id="loginContainer">
+
+  <div class="row">
+    <form id="loginFormModel" *ngIf="!isLoggedIn" (ngSubmit)="loginFormModel.form.valid && onSubmit()" #loginFormModel="ngForm" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input autocomplete="off" type="text" class="form-control" id="username" name="username" [(ngModel)]="loginForm.masterLogin" required #username="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="loginFormModel.submitted && username.invalid">Username is required!</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="loginForm.masterPassword" required #password="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="loginFormModel.submitted && password.invalid">
+          <div *ngIf="password.hasError('required')">Password is required!</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </div>
+
+      <div class="form-group text-center">
+        <p>Don't have an account?</p>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-success btn-block" (click)="redirectToRegisterPage()">Sign up now!</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="alert alert-danger" role="alert" *ngIf="this.submitted && this.isLoginFailed" style="text-align: center">{{ errorMessage }}</div>
+  </div>
+</div>

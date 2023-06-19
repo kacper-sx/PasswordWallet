@@ -1,0 +1,104 @@
+<ng-template #decodePasswordModal let-modal>
+  <div class="modal-body">
+    <form id="decodePasswordModel" (ngSubmit)="decodePasswordModel.form.valid && decodePassword()" #decodePasswordModel="ngForm" novalidate>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="decodePasswordForm.masterPassword" required #password="ngModel"/>
+        <div class="alert alert-danger" role="alert" *ngIf="decodePasswordModel.submitted && password.invalid">
+          <div *ngIf="password.hasError('required')">Password is required!</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+      </div>
+
+      <div class="form-group">
+        <div class="alert alert-danger" role="alert" *ngIf="decodePasswordModel.submitted && isDecodingFailed" style="text-align: center">{{ errorMessage }}</div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+<ng-template #deleteLoginInfoConfirmationModal let-modal>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <p class="alert alert-success">
+          <strong>Do you really want to delete this login information?</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm d-flex justify-content-center">
+          <button type="button" class="btn btn-success" (click)="deleteLoginInfo(idOfLoginInfoToDelete)">Yes</button>
+        </div>
+        <div class="col-sm d-flex justify-content-center">
+          <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="container-fluid p-0" id="myLoginInformationsContainer" *ngIf="userIsLoggedIn">
+  <div class="col-md-7">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Web address</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let loginInfo of loginInformationsList | paginate : paginationConfig">
+        <td>{{loginInfo.login}}</td>
+        <td>{{loginInfo.password}}</td>
+        <td>{{loginInfo.webAddress}}</td>
+        <td>{{loginInfo.description}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="openDeleteLoginInfoConfirmationModal(deleteLoginInfoConfirmationModal, loginInfo.id)">Delete</button>
+        </td>
+        <td>
+          <button class="btn btn-info" (click)="openDecodePasswordModal(decodePasswordModal, loginInfo.id)">Show</button>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="openEditLoginInfoModal(editLoginInfoModal, loginInfo.id)">Edit</button>
+        </td>
+      </tr>
+      <pagination-controls (pageChange)="changePage($event)" class="my-pagination"></pagination-controls>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #editLoginInfoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Change password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="editLoginInfoForm" (ngSubmit)="editLoginInfoForm.form.valid && editLoginInfoPassword()" #editLoginInfoForm="ngForm" novalidate>
+      <label for="password">New Password:</label>
+      <div class="input-group">
+        <input class="form-control" autocomplete="off" type="password" style="display: inline;" id="newPassword" name="newPassword"
+               [(ngModel)]="loginInfoEditionForm.newPassword" #newPassword="ngModel" required>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Confirm password change</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

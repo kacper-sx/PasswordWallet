@@ -1,0 +1,28 @@
+<nav class="navbar nav-pills navbar-dark bg-dark p-0" *ngIf="userIsLoggedIn">
+  <ul class="nav nav-pills" routerLinkActive="active">
+    <li class="nav-item">
+      <a class="nav-link active" routerLink="/home">Home </a>
+    </li>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Logins</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" routerLink="logininfos/add">Add new login information</a>
+      </div>
+    </li>
+  </ul>
+
+  <ul class="nav nav-pills align-self-end">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">{{masterLogin}}</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" routerLink="/profile">My account</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="" (click)="logout()">LogOut</a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>
